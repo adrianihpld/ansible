@@ -1,0 +1,59 @@
+---
+- name: Install fastfetch and flashfetch on all nodes (ARM + x86_64)
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    fastfetch_map:
+      aarch64:
+        url: https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-aarch64.tar.gz
+        dir: fastfetch-linux-aarch64
+      x86_64:
+        url: https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-amd64.tar.gz
+        dir: fastfetch-linux-amd64
+
+    fastfetch_archive: /tmp/fastfetch.tar.gz
+    fastfetch_parent_dir: /tmp
+    binaries:
+      - fastfetch
+      - flashfetch
+
+  tasks:
+
+    - name: Fail if architecture is unsupported
+      ansible.builtin.fail:
+        msg: "Unsupported architecture: {{ ansible_architecture }}"
+      when: ansible_architecture not in fastfetch_map
+
+    - name: Download fastfetch archive for this architecture
+      ansible.builtin.get_url:
+        url: "{{ fastfetch_map[ansible_architecture].url }}"
+        dest: "{{ fastfetch_archive }}"
+        mode: '0644'
+
+    - name: Extract fastfetch archive
+      ansible.builtin.unarchive:
+        src: "{{ fastfetch_archive }}"
+        dest: "{{ fastfetch_parent_dir }}"
+        remote_src: true
+        creates: "{{ fastfetch_parent_dir }}/{{ fastfetch_map[ansible_architecture].dir }}/usr/bin/fastfetch"
+
+    - name: Install fastfetch and flashfetch binaries
+      ansible.builtin.copy:
+        src: "{{ fastfetch_parent_dir }}/{{ fastfetch_map[ansible_architecture].dir }}/usr/bin/{{ item }}"
+        dest: /usr/local/bin/{{ item }}
+        mode: '0755'
+        remote_src: true
+      loop: "{{ binaries }}"
+
+    - name: Clean up extracted directory
+      ansible.builtin.file:
+        path: "{{ fastfetch_parent_dir }}/{{ fastfetch_map[ansible_architecture].dir }}"
+        state: absent
+
+    - name: Clean up archive
+      ansible.builtin.file:
+        path: "{{ fastfetch_archive }}"
+        state: absent
+

@@ -1,0 +1,18 @@
+- name: Variable precedence demo
+  hosts: workers
+  gather_facts: no
+
+  vars:
+    app_port: 80
+
+  tasks:
+    - name: Show app port
+      debug:
+        msg: "App port is {{ app_port }}"
+
+    - name: Override app port
+      debug:
+        msg: "Overridden app port is {{ app_port }}"
+      vars:
+        app_port: 8080
+

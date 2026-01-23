@@ -1,0 +1,13 @@
+- name: Register variable demo
+  hosts: workers
+  gather_facts: no
+
+  tasks:
+    - name: Get hostname
+      command: hostname
+      register: host_output
+
+    - name: Show hostname
+      debug:
+        msg: "Hostname is {{ host_output.stdout }}"
+
