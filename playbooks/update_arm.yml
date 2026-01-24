@@ -1,0 +1,10 @@
+# playbooks/update_all.yml
+- name: Update all VMs
+  hosts: all
+  become: true
+  tasks:
+    - name: Update all packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+

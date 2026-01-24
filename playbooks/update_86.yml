@@ -1,0 +1,11 @@
+# playbooks/update_86.yml
+- name: Update all VMs
+  hosts: workers
+  become: true
+
+  tasks:
+    - name: Update packages on worker nodes
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+
