@@ -1,0 +1,18 @@
+---
+- name: Set FQDN hostname on all nodes
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Set hostname to FQDN
+      ansible.builtin.hostname:
+        name: "{{ item.fqdn }}"
+      when: inventory_hostname == item.short
+      loop:
+        - { fqdn: "control.homelab.lab", short: "control" }
+        - { fqdn: "storage.homelab.lab", short: "storage" }
+        - { fqdn: "worker1.homelab.lab", short: "worker1" }
+        - { fqdn: "worker2.homelab.lab", short: "worker2" }
+        - { fqdn: "worker3.homelab.lab", short: "worker3" }
+        - { fqdn: "login.homelab.lab",   short: "login" }
+        - { fqdn: "web1.homelab.lab",    short: "web1" }
