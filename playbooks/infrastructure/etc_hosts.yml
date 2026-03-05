@@ -1,0 +1,19 @@
+---
+- name: Configure /etc/hosts on all nodes
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Add cluster hosts to /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: "{{ item.ip }} {{ item.name }}"
+        state: present
+      loop:
+        - { ip: "10.0.0.246", name: "control" }
+        - { ip: "10.0.0.250", name: "storage" }
+        - { ip: "10.0.0.236", name: "worker1" }
+        - { ip: "10.0.0.19",  name: "worker2" }
+        - { ip: "10.0.0.116", name: "worker3" }
+        - { ip: "10.0.0.71",  name: "login" }
+        - { ip: "10.0.0.104", name: "web1" }
