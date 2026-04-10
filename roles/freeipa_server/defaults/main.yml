@@ -1,0 +1,24 @@
+---
+ipa_domain: homelab.local
+ipa_realm: HOMELAB.LOCAL
+ipa_server_fqdn: storage.homelab.local
+
+# Passwords — override with ansible-vault in group_vars/all/vault.yml
+ipa_admin_password: "changeme"
+ipa_ds_password: "changeme"
+
+# DNS — set to true if you want FreeIPA to manage DNS (runs BIND)
+# Set to false to keep using /etc/hosts (simpler)
+ipa_setup_dns: false
+ipa_dns_forwarder: "8.8.8.8"
+
+ipa_firewall_services:
+  - freeipa-ldap
+  - freeipa-ldaps
+  - freeipa-replication
+  - kerberos
+  - kpasswd
+  - dns
+  - ntp
+  - http
+  - https

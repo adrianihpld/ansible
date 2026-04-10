@@ -1,0 +1,41 @@
+---
+- name: Install autofs and NFS client utilities (RHEL)
+  ansible.builtin.dnf:
+    name:
+      - autofs
+      - nfs-utils
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Install autofs and NFS client utilities (Ubuntu)
+  ansible.builtin.apt:
+    name:
+      - autofs
+      - nfs-common
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Debian"
+
+- name: Configure autofs master map
+  ansible.builtin.template:
+    src: auto.master.j2
+    dest: /etc/auto.master.d/home.autofs
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart autofs
+
+- name: Configure autofs home map
+  ansible.builtin.template:
+    src: auto.home.j2
+    dest: /etc/auto.home
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart autofs
+
+- name: Enable and start autofs
+  ansible.builtin.service:
+    name: autofs
+    state: started
+    enabled: true

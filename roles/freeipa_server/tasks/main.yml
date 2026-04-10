@@ -1,0 +1,43 @@
+---
+- name: Install FreeIPA server packages
+  ansible.builtin.apt:
+    name:
+      - freeipa-server
+      - freeipa-server-dns
+    state: present
+    update_cache: true
+
+- name: Run FreeIPA server install
+  ansible.builtin.command:
+    cmd: >
+      ipa-server-install
+      --unattended
+      --realm={{ ipa_realm }}
+      --domain={{ ipa_domain }}
+      --ds-password={{ ipa_ds_password }}
+      --admin-password={{ ipa_admin_password }}
+      --hostname={{ ipa_server_fqdn }}
+      --ip-address={{ ansible_host }}
+      --no-ntp
+      {% if ipa_setup_dns %}
+      --setup-dns
+      --forwarder={{ ipa_dns_forwarder }}
+      --auto-reverse
+      {% else %}
+      --no-dns-sshfp
+      {% endif %}
+    creates: /etc/ipa/default.conf
+  notify: restart ipa services
+
+- name: Ensure firewalld is installed
+  ansible.builtin.apt:
+    name: firewalld
+    state: present
+
+- name: Enable FreeIPA firewall services
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+    immediate: true
+  loop: "{{ ipa_firewall_services }}"

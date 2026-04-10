@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  role_name: nfs_client
+  author: Adrian
+  description: Configure autofs NFS home directory mounts for cluster nodes
+  min_ansible_version: "2.14"
+  platforms:
+    - name: EL
+      versions:
+        - "9"
+        - "10"
+    - name: Ubuntu
+      versions:
+        - "24.04"
+dependencies: []

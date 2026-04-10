@@ -1,0 +1,5 @@
+---
+- name: restart ipa services
+  ansible.builtin.service:
+    name: ipa
+    state: restarted
