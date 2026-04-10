@@ -10,7 +10,7 @@
       when: inventory_hostname == item.short
       loop:
         - { fqdn: "control.homelab.lab", short: "control" }
-        - { fqdn: "storage.homelab.lab", short: "storage" }
+        - { fqdn: "storage-arm.homelab.lab", short: "storage-arm" }
         - { fqdn: "worker1.homelab.lab", short: "worker1" }
         - { fqdn: "worker2.homelab.lab", short: "worker2" }
         - { fqdn: "worker3.homelab.lab", short: "worker3" }
