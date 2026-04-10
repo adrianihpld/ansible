@@ -1,0 +1,5 @@
+---
+ipa_domain: homelab.local
+ipa_realm: HOMELAB.LOCAL
+ipa_server_fqdn: storage.homelab.local
+ipa_admin_password: "changeme"

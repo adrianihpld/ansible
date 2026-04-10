@@ -1,0 +1,17 @@
+---
+# Deploy FreeIPA + NFS shared home directories across the cluster
+# Run order matters: server must be up before clients enroll
+
+- name: Configure FreeIPA server and NFS on storage
+  hosts: storage
+  become: true
+  roles:
+    - freeipa_server
+    - nfs_server
+
+- name: Enroll all cluster nodes as FreeIPA clients
+  hosts: k8s_cluster
+  become: true
+  roles:
+    - freeipa_client
+    - nfs_client

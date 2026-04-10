@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  role_name: freeipa_client
+  author: Adrian
+  description: Enroll hosts into a FreeIPA domain
+  min_ansible_version: "2.14"
+  platforms:
+    - name: EL
+      versions:
+        - "9"
+        - "10"
+    - name: Ubuntu
+      versions:
+        - "24.04"
+dependencies: []
