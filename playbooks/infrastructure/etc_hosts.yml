@@ -11,7 +11,7 @@
         state: present
       loop:
         - { ip: "10.0.0.246", fqdn: "control.homelab.lab", short: "control" }
-        - { ip: "10.0.0.250", fqdn: "storage.homelab.lab", short: "storage" }
+        - { ip: "10.0.0.190", fqdn: "storage-arm.homelab.lab", short: "storage-arm" }
         - { ip: "10.0.0.236", fqdn: "worker1.homelab.lab", short: "worker1" }
         - { ip: "10.0.0.19",  fqdn: "worker2.homelab.lab", short: "worker2" }
         - { ip: "10.0.0.116", fqdn: "worker3.homelab.lab", short: "worker3" }

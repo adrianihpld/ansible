@@ -1,4 +1,4 @@
 ---
-nfs_server_host: storage.homelab.local
-nfs_home_export: /export/home
+nfs_server_host: storage-arm.homelab.lab
+nfs_home_export: /data/home
 autofs_timeout: 300

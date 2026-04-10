@@ -1,3 +1,3 @@
 ---
-nfs_home_export: /export/home
+nfs_home_export: /data/home
 nfs_allowed_network: 10.0.0.0/24
